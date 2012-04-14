@@ -1,3 +1,9 @@
+GIT
+  remote: /Users/polarblau/Projects/gems/jekyll-hasty
+  revision: a02fa2dcc2392df21281df4af5ec272d41b5f47c
+  specs:
+    jekyll-hasty (0.0.1)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -27,4 +33,5 @@ PLATFORMS
 
 DEPENDENCIES
   jekyll
+  jekyll-hasty!
   rdiscount

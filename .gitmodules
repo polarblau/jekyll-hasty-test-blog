@@ -1,3 +1,6 @@
 [submodule "javascripts/hastie"]
 	path = javascripts/hastie
 	url = git@github.com:polarblau/hastie.git
+[submodule "javascripts/hasty"]
+	path = javascripts/hasty
+	url = /Users/polarblau/Projects/jquery.plugins/jquery.hasty/
