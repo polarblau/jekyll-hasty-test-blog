@@ -1,0 +1,3 @@
+[submodule "javascripts/hastie"]
+	path = javascripts/hastie
+	url = git@github.com:polarblau/hastie.git

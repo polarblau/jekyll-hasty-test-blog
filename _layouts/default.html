@@ -4,10 +4,20 @@
         <meta charset="utf-8">
         <title>{{ page.title }}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
+        <script src="http://code.jquery.com/jquery.min.js"></script>
+        <script src="/javascripts/hastie/src/jquery.hastie.js"></script>
+        <script src="/javascripts/mustache.js"></script>
+
+        <script>
+          $(function(){
+            $('#comments').hastie();
+          });
+        </script>
+
     <body>
 
         {{ content }}
 
     </body>
 </html>
+
