@@ -22,40 +22,46 @@ end
 module Jekyll
   class CommentsTag < Liquid::Tag
 
-    def initialize(tag_name, file, tokens)
+    API_REPOS_URL = 'https://api.github.com/repos'
+
+    def initialize(tag_name, text, tokens)
       super
-      @file = file
+      @text = text
     end
 
     def render(context)
       file_name = context.environments.first["page"]["file_name"]
 
-      cmd = "git log --pretty=format:'%h' --follow #{file_name}"
-      hashes = `#{cmd}`.split('\n')
+      cmd = "git log --pretty=format:'%H' --follow #{file_name}"
+      commit_ids = `#{cmd}`.split(/\W+/)#.split('\n')
 
-      puts hashes
+      url = `git config --get remote.origin.url`.chomp
+      url.gsub!(%r{git://github.com/(.*\.git)}, 'git@github.com:\1')
 
-      commit_id = '71a7950'
-      #commit_id = `git rev-list -n 1 HEAD"# --`# #{__FILE__}"
-      comments_url = "https://api.github.com/repos/polarblau/hastie-test-blog/commits/#{commit_id}/comments"
-      "<div id='comments' data-comments-url='#{comments_url}'>#{@text}</div>"
+      if url =~ /^git@github/
+        # validate that it's a proper github url
+      else
+        raise "only supports github URLs"
+      end
+
+      repo = url.scan(%r{git@github.com:(.*).git}).flatten.first
+
+      comments_url = [API_REPOS_URL, repo, 'commits', '{sha}', 'comments'].join('/')
+
+      attributes = {
+        'id'                => 'comments',
+        'data-comments-url' => comments_url,
+        'data-commit-ids'   => commit_ids
+      }
+
+      markup = "<div "
+      markup << attributes.map{|k, v| "#{k}='#{v}'"}.join(' ')
+      markup << ">#{@text}</div>"
+
+      markup
     end
   end
 
-private
-
-  def caller_method_name
-    parse_caller(caller(2).first).last
-  end
-
-  def parse_caller(at)
-      if /^(.+?):(\d+)(?::in `(.*)')?/ =~ at
-          file = Regexp.last_match[1]
-      line = Regexp.last_match[2].to_i
-      method = Regexp.last_match[3]
-      [file, line, method]
-    end
-  end
 end
 
 Liquid::Template.register_tag('comments', Jekyll::CommentsTag)
