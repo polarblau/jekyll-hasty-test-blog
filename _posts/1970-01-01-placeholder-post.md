@@ -5,4 +5,4 @@ title: Placeholder post
 
 **{{ page.title }}** written in markdown.
 
-{% comments %}
+{% hasty_comments %}
