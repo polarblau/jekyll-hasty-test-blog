@@ -4,5 +4,3 @@ title: Placeholder post
 ---
 
 **{{ page.title }}** written in markdown.
-
-{% hasty_comments %}
